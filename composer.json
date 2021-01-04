@@ -1,7 +1,7 @@
 {
-    "name": "mediagone/doctrine-common-types",
+    "name": "mediagone/common-types-doctrine",
     "type": "library",
-    "description": "Doctrine types for mediagone/common-types package.",
+    "description": "Provides Doctrine types for mediagone/common-types package.",
     "keywords": ["doctrine", "value objects", "ddd", "type"],
     "license": "MIT",
     "authors": [
