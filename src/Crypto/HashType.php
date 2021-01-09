@@ -33,8 +33,8 @@ final class HashType extends Type
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform) : string
     {
         return $platform->getVarcharTypeDeclarationSQL([
-            'length' => '60',
-            'fixed' => true,
+            'length' => max(HashBcryptType::SIZE),
+            'fixed' => false,
         ]);
     }
     

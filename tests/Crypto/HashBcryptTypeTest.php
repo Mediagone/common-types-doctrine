@@ -61,8 +61,8 @@ final class HashBcryptTypeTest extends TestCase
     
     public function test_declare_sql() : void
     {
-        self::assertSame('CHAR(60)', $this->type->getSQLDeclaration([], new MySqlPlatform()));
-        self::assertSame('CHAR(60)', $this->type->getSQLDeclaration(['length' => '200'], new MySqlPlatform()));
+        self::assertSame('CHAR('.HashBcryptType::SIZE.')', $this->type->getSQLDeclaration([], new MySqlPlatform()));
+        self::assertSame('CHAR('.HashBcryptType::SIZE.')', $this->type->getSQLDeclaration(['length' => HashBcryptType::SIZE + 1], new MySqlPlatform()));
     }
     
     

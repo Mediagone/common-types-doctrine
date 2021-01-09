@@ -13,7 +13,9 @@ final class HashBcryptType extends Type
     // Properties
     //========================================================================================================
     
-    public const NAME = 'common_bcrypt';
+    public const NAME = 'common_hashbcrypt';
+    
+    public const SIZE = 60;
     
     
     
@@ -33,7 +35,7 @@ final class HashBcryptType extends Type
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform) : string
     {
         return $platform->getVarcharTypeDeclarationSQL([
-            'length' => '60',
+            'length' => self::SIZE,
             'fixed' => true,
         ]);
     }

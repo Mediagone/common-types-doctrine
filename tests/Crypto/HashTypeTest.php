@@ -7,6 +7,7 @@ use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use Doctrine\DBAL\Types\Type;
 use Mediagone\Common\Types\Crypto\Hash;
 use Mediagone\Common\Types\Crypto\HashBcrypt;
+use Mediagone\Doctrine\Common\Types\Crypto\HashBcryptType;
 use Mediagone\Doctrine\Common\Types\Crypto\HashType;
 use PHPUnit\Framework\TestCase;
 
@@ -62,12 +63,13 @@ final class HashTypeTest extends TestCase
     
     public function test_declare_sql() : void
     {
-        self::assertSame('CHAR(60)', $this->type->getSQLDeclaration([], new MySqlPlatform()));
-        self::assertSame('CHAR(60)', $this->type->getSQLDeclaration(['length' => '200'], new MySqlPlatform()));
+        $maxLength = max(HashBcryptType::SIZE);
+        self::assertSame("VARCHAR($maxLength)", $this->type->getSQLDeclaration([], new MySqlPlatform()));
+        self::assertSame("VARCHAR($maxLength)", $this->type->getSQLDeclaration(['length' => $maxLength + 1], new MySqlPlatform()));
     }
     
     
-    public function test_can_convert_to_database_value() : void
+    public function test_can_convert_bcrypt_to_database_value() : void
     {
         $hash = '$2y$12$00000000000000000000000000000000000000000000000000000';
         $bcrypt = Hash::fromHash($hash);
@@ -76,13 +78,12 @@ final class HashTypeTest extends TestCase
         self::assertSame($hash, $value);
     }
     
-    
-    public function test_can_convert_value_from_database() : void
+    public function test_can_convert_value_from_database_to_bcrypt() : void
     {
         $value = '$2y$12$00000000000000000000000000000000000000000000000000000';
         $bcrypt = $this->type->convertToPHPValue($value, new MySqlPlatform());
         
-        self::assertInstanceOf(Hash::class, $bcrypt);
+        self::assertInstanceOf(HashBcrypt::class, $bcrypt);
         self::assertSame($value, $bcrypt->toString());
     }
     
