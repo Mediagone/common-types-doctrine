@@ -6,7 +6,9 @@ use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use Doctrine\DBAL\Types\Type;
 use Mediagone\Common\Types\Crypto\Hash;
+use Mediagone\Common\Types\Crypto\HashArgon2id;
 use Mediagone\Common\Types\Crypto\HashBcrypt;
+use Mediagone\Doctrine\Common\Types\Crypto\HashArgon2idType;
 use Mediagone\Doctrine\Common\Types\Crypto\HashBcryptType;
 use Mediagone\Doctrine\Common\Types\Crypto\HashType;
 use PHPUnit\Framework\TestCase;
@@ -63,7 +65,7 @@ final class HashTypeTest extends TestCase
     
     public function test_declare_sql() : void
     {
-        $maxLength = max(HashBcryptType::SIZE);
+        $maxLength = max(HashBcryptType::SIZE, HashArgon2idType::SIZE);
         self::assertSame("VARCHAR($maxLength)", $this->type->getSQLDeclaration([], new MySqlPlatform()));
         self::assertSame("VARCHAR($maxLength)", $this->type->getSQLDeclaration(['length' => $maxLength + 1], new MySqlPlatform()));
     }
@@ -85,6 +87,25 @@ final class HashTypeTest extends TestCase
         
         self::assertInstanceOf(HashBcrypt::class, $bcrypt);
         self::assertSame($value, $bcrypt->toString());
+    }
+    
+    
+    public function test_can_convert_argon2id_to_database_value() : void
+    {
+        $hash = '$argon2id$v=19$m=16384,t=1,p=1$0000000000000000000000$0000000000000000000000000000000000000000000';
+        $argon = Hash::fromHash($hash);
+        $value = $this->type->convertToDatabaseValue($argon, new MySqlPlatform());
+        
+        self::assertSame($hash, $value);
+    }
+    
+    public function test_can_convert_value_from_database_to_argon2id() : void
+    {
+        $value = '$argon2id$v=19$m=16384,t=1,p=1$0000000000000000000000$0000000000000000000000000000000000000000000';
+        $argon = $this->type->convertToPHPValue($value, new MySqlPlatform());
+        
+        self::assertInstanceOf(HashArgon2id::class, $argon);
+        self::assertSame($value, $argon->toString());
     }
     
     

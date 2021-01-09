@@ -4,16 +4,18 @@ namespace Mediagone\Doctrine\Common\Types\Crypto;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
-use Mediagone\Common\Types\Crypto\Hash;
+use Mediagone\Common\Types\Crypto\HashArgon2id;
 
 
-final class HashType extends Type
+final class HashArgon2idType extends Type
 {
     //========================================================================================================
     // Properties
     //========================================================================================================
     
-    public const NAME = 'common_hash';
+    public const NAME = 'common_hashargon2id';
+    
+    public const SIZE = 255;
     
     
     
@@ -33,7 +35,7 @@ final class HashType extends Type
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform) : string
     {
         return $platform->getVarcharTypeDeclarationSQL([
-            'length' => max(HashBcryptType::SIZE, HashArgon2idType::SIZE),
+            'length' => self::SIZE,
             'fixed' => false,
         ]);
     }
@@ -53,16 +55,16 @@ final class HashType extends Type
      *
      * @param string|null $value The value to convert.
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform) : ?Hash
+    public function convertToPHPValue($value, AbstractPlatform $platform) : ?HashArgon2id
     {
-        return $value !== null ? Hash::fromHash($value) : null;
+        return $value !== null ? HashArgon2id::fromHash($value) : null;
     }
     
     
     /**
      * Converts a value from its PHP representation to its database representation of this type.
      *
-     * @param Hash|null $value The value to convert.
+     * @param HashArgon2id|null $value The value to convert.
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform) : ?string
     {
