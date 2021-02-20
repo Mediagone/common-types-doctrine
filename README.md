@@ -8,7 +8,7 @@ Provides Doctrine types for "mediagone/common-types" package.
 
 
 ## Installation
-This package requires **PHP 7.4+** and Doctrine **ORM 2.7+**
+This package requires **PHP 7.4+** and Doctrine **DBAL 2.7+**
 
 Add it as Composer dependency:
 ```sh
