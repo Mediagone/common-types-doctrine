@@ -66,7 +66,7 @@ final class HashType extends Type
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform) : ?string
     {
-        return $value ? $value->toString() : null;
+        return $value ? (string)$value : null;
     }
     
     

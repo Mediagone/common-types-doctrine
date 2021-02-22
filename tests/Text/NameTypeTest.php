@@ -72,7 +72,7 @@ final class NameTypeTest extends TestCase
         $name = Name::fromString('Test name');
         $value = $this->type->convertToDatabaseValue($name, new MySqlPlatform());
         
-        self::assertSame($value, $name->toString());
+        self::assertSame($value, (string)$name);
     }
     
     
@@ -82,7 +82,7 @@ final class NameTypeTest extends TestCase
         $name = $this->type->convertToPHPValue($value, new MySqlPlatform());
         
         self::assertInstanceOf(Name::class, $name);
-        self::assertSame($value, $name->toString());
+        self::assertSame($value, (string)$name);
     }
     
     

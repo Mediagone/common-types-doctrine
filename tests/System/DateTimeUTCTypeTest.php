@@ -79,7 +79,7 @@ final class DateTimeUTCTypeTest extends TestCase
         $value = $this->type->convertToPHPValue($referenceValue, new MySqlPlatform());
         
         self::assertInstanceOf(DateTimeUTC::class, $value);
-        self::assertSame($referenceDate->toString(), $value->toString());
+        self::assertSame((string)$referenceDate, (string)$value);
     }
     
     

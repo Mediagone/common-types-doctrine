@@ -82,7 +82,7 @@ final class HashBcryptTypeTest extends TestCase
         $bcrypt = $this->type->convertToPHPValue($value, new MySqlPlatform());
         
         self::assertInstanceOf(HashBcrypt::class, $bcrypt);
-        self::assertSame($value, $bcrypt->toString());
+        self::assertSame($value, (string)$bcrypt);
     }
     
     

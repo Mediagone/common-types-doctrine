@@ -79,7 +79,7 @@ final class DateTypeTest extends TestCase
         $value = $this->type->convertToPHPValue($referenceValue, new MySqlPlatform());
         
         self::assertInstanceOf(Date::class, $value);
-        self::assertSame($referenceDate->toString(), $value->toString());
+        self::assertSame((string)$referenceDate, (string)$value);
     }
     
     

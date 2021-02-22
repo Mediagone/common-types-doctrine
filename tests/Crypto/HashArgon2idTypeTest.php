@@ -82,7 +82,7 @@ final class HashArgon2idTypeTest extends TestCase
         $bcrypt = $this->type->convertToPHPValue($value, new MySqlPlatform());
         
         self::assertInstanceOf(HashArgon2id::class, $bcrypt);
-        self::assertSame($value, $bcrypt->toString());
+        self::assertSame($value, (string)$bcrypt);
     }
     
     

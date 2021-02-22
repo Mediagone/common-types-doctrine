@@ -72,7 +72,7 @@ final class SlugTypeTest extends TestCase
         $slug = Slug::fromString('demo-slug');
         $value = $this->type->convertToDatabaseValue($slug, new MySqlPlatform());
         
-        self::assertSame($slug->toString(), $value);
+        self::assertSame((string)$slug, $value);
     }
     
     
@@ -82,7 +82,7 @@ final class SlugTypeTest extends TestCase
         $slug = $this->type->convertToPHPValue($value, new MySqlPlatform());
         
         self::assertInstanceOf(Slug::class, $slug);
-        self::assertSame($value, $slug->toString());
+        self::assertSame($value, (string)$slug);
     }
     
     

@@ -82,7 +82,7 @@ final class UrlPathTypeTest extends TestCase
         $url = $this->type->convertToPHPValue($value, new MySqlPlatform());
         
         self::assertInstanceOf(UrlPath::class, $url);
-        self::assertSame($value, $url->toString());
+        self::assertSame($value, (string)$url);
     }
     
     

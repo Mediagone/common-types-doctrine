@@ -82,7 +82,7 @@ final class EmailAddressTypeTest extends TestCase
         $email = $this->type->convertToPHPValue($value, new MySqlPlatform());
         
         self::assertInstanceOf(EmailAddress::class, $email);
-        self::assertSame($value, $email->toString());
+        self::assertSame($value, (string)$email);
     }
     
     

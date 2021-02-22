@@ -72,7 +72,7 @@ final class TextTypeTest extends TestCase
         $name = Text::fromString('Lorem ipsum...');
         $value = $this->type->convertToDatabaseValue($name, new MySqlPlatform());
         
-        self::assertSame($value, $name->toString());
+        self::assertSame($value, (string)$name);
     }
     
     
@@ -82,7 +82,7 @@ final class TextTypeTest extends TestCase
         $name = $this->type->convertToPHPValue($value, new MySqlPlatform());
         
         self::assertInstanceOf(Text::class, $name);
-        self::assertSame($value, $name->toString());
+        self::assertSame($value, (string)$name);
     }
     
     

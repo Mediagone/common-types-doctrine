@@ -72,7 +72,7 @@ final class TitleTypeTest extends TestCase
         $name = Title::fromString('Lorem ipsum...');
         $value = $this->type->convertToDatabaseValue($name, new MySqlPlatform());
         
-        self::assertSame($value, $name->toString());
+        self::assertSame($value, (string)$name);
     }
     
     
@@ -82,7 +82,7 @@ final class TitleTypeTest extends TestCase
         $name = $this->type->convertToPHPValue($value, new MySqlPlatform());
         
         self::assertInstanceOf(Title::class, $name);
-        self::assertSame($value, $name->toString());
+        self::assertSame($value, (string)$name);
     }
     
     
